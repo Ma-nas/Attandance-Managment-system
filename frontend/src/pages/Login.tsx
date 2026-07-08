@@ -22,6 +22,7 @@ export default function Login() {
     },
     onSuccess: (data) => {
       localStorage.setItem('auth_token', data.token);
+      localStorage.setItem('auth_role', data.role);
       
       if (data.role === 'STUDENT') {
         navigate('/');

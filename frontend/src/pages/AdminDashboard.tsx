@@ -56,7 +56,7 @@ export default function AdminDashboard() {
         </div>
         <div className="flex items-center gap-4">
           <span className="text-sm md:text-base font-semibold">Super Admin</span>
-          <button onClick={() => { localStorage.removeItem('auth_token'); navigate('/login'); }} className="text-white hover:text-red-300 transition-colors ml-2">
+          <button onClick={() => { localStorage.clear(); navigate('/login'); }} className="text-white hover:text-red-300 transition-colors ml-2">
             <LogOut className="w-5 h-5" />
           </button>
         </div>

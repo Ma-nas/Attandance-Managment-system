@@ -11,6 +11,7 @@ export default function StudentDashboard() {
 
   const handleLogout = () => {
     localStorage.removeItem('auth_token');
+    localStorage.removeItem('auth_role');
     navigate('/login');
   };
 
