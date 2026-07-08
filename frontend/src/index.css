@@ -13,7 +13,6 @@
   }
 
   body {
-    @apply font-sans antialiased;
     background-color: var(--bg-light);
     color: var(--text-main);
     margin: 0;

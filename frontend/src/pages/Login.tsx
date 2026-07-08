@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, Wifi, Battery, Signal } from 'lucide-react';
 
 export default function Login() {
   const [identifier, setIdentifier] = useState('');
@@ -43,29 +43,39 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-blobs flex flex-col items-center justify-center p-4">
-      <div className="w-full max-w-md bg-white rounded-[40px] shadow-xl overflow-hidden min-h-[600px] flex flex-col relative">
+    <div className="min-h-screen bg-gray-200 flex flex-col items-center justify-center p-4">
+      {/* Mobile Frame Simulation */}
+      <div className="w-full max-w-[400px] bg-white rounded-[40px] shadow-2xl overflow-hidden h-[800px] max-h-screen flex flex-col relative border-[8px] border-white ring-1 ring-gray-200">
         
-        {/* Navy Header curve simulation */}
-        <div className="navy-header h-32 w-full absolute top-0 left-0 rounded-b-[40px] -z-0"></div>
+        {/* Fake Mobile Status Bar & Notch */}
+        <div className="bg-[var(--primary-navy)] h-12 w-full flex justify-between items-center px-6 text-white text-[10px] font-bold rounded-t-[32px] shrink-0">
+          <span>10:55</span>
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-6 bg-white rounded-b-3xl"></div>
+          <div className="flex items-center gap-1">
+            <Signal className="w-3 h-3" />
+            <Wifi className="w-3 h-3" />
+            <Battery className="w-4 h-4" />
+          </div>
+        </div>
 
-        <div className="flex-1 px-8 pt-40 pb-10 z-10 flex flex-col">
-          <div className="mb-10 text-center">
-            <h1 className="text-2xl font-bold text-[#0A192F] mb-2">Let's Get You Started</h1>
+        {/* Content Area */}
+        <div className="flex-1 px-8 pt-32 pb-10 z-10 flex flex-col bg-white">
+          <div className="mb-12">
+            <h1 className="text-2xl font-bold text-[#0A192F] mb-2 tracking-tight">Let's Get You Started</h1>
             <p className="text-gray-400 text-sm">Tell us something about yourself</p>
           </div>
 
-          {error && <div className="text-red-500 text-sm text-center mb-4">{error}</div>}
+          {error && <div className="text-red-500 text-sm mb-4 bg-red-50 p-3 rounded-xl">{error}</div>}
 
-          <form onSubmit={handleSubmit} className="space-y-6 flex-1 flex flex-col">
-            <div className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-6 flex-1 flex flex-col relative z-20">
+            <div className="space-y-5">
               <div className="relative">
                 <input
                   type="text"
                   placeholder="Register No. / Email"
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
-                  className="modern-input"
+                  className="w-full bg-transparent border-b border-gray-200 py-3 text-sm focus:outline-none focus:border-[var(--primary-blue)] transition-colors placeholder-gray-300"
                   required
                 />
               </div>
@@ -76,28 +86,28 @@ export default function Login() {
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="modern-input pr-12"
+                  className="w-full bg-transparent border-b border-gray-200 py-3 text-sm focus:outline-none focus:border-[var(--primary-blue)] transition-colors placeholder-gray-300 pr-10"
                   required
                 />
                 <button 
                   type="button" 
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 p-2"
                 >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
             </div>
 
             <div className="text-right">
-              <a href="#" className="text-xs text-gray-400 hover:text-[var(--primary-blue)] transition-colors">Forgot Password?</a>
+              <a href="#" className="text-[10px] text-gray-400 hover:text-[var(--primary-blue)] transition-colors uppercase tracking-wider font-semibold">Forgot Password?</a>
             </div>
 
-            <div className="mt-auto pt-8">
+            <div className="mt-12">
               <button 
                 type="submit" 
                 disabled={loginMutation.isPending}
-                className="modern-button w-full text-lg"
+                className="w-4/5 bg-[#0077B6] text-white font-semibold rounded-full py-4 shadow-[0_8px_20px_rgba(0,119,182,0.3)] hover:bg-[#005f92] transition-colors"
               >
                 {loginMutation.isPending ? 'Logging in...' : "I'm Done"}
               </button>
@@ -105,8 +115,8 @@ export default function Login() {
           </form>
         </div>
         
-        {/* Bottom decorative shape */}
-        <div className="absolute -bottom-16 -left-16 w-64 h-64 bg-blue-50 rounded-full opacity-50 pointer-events-none"></div>
+        {/* Bottom decorative shape matching screenshot */}
+        <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-blue-50/80 rounded-full z-0 pointer-events-none"></div>
       </div>
     </div>
   );
