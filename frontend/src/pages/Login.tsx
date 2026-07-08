@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
-import { Eye, EyeOff, Wifi, Battery, Signal } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
 
 export default function Login() {
   const [identifier, setIdentifier] = useState('');
@@ -43,39 +43,41 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-200 flex flex-col items-center justify-center p-4">
-      {/* Mobile Frame Simulation */}
-      <div className="w-full max-w-[400px] bg-white rounded-[40px] shadow-2xl overflow-hidden h-[800px] max-h-screen flex flex-col relative border-[8px] border-white ring-1 ring-gray-200">
+    <div className="min-h-screen bg-[#F3F7FA] flex items-center justify-center p-4 sm:p-8">
+      
+      <div className="w-full max-w-4xl bg-white rounded-[40px] shadow-2xl overflow-hidden flex flex-col md:flex-row relative">
         
-        {/* Fake Mobile Status Bar & Notch */}
-        <div className="bg-[var(--primary-navy)] h-12 w-full flex justify-between items-center px-6 text-white text-[10px] font-bold rounded-t-[32px] shrink-0">
-          <span>10:55</span>
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-6 bg-white rounded-b-3xl"></div>
-          <div className="flex items-center gap-1">
-            <Signal className="w-3 h-3" />
-            <Wifi className="w-3 h-3" />
-            <Battery className="w-4 h-4" />
+        {/* Left Side: Branding / Graphic (Visible on Desktop) */}
+        <div className="hidden md:flex md:w-1/2 bg-gradient-to-br from-[#00A6DA] to-[#0077B6] p-12 flex-col justify-between text-white relative overflow-hidden">
+          <div className="relative z-10">
+            <h2 className="text-4xl font-bold mb-4">Smart Attendance.</h2>
+            <p className="text-blue-100 text-lg">Streamline your academic tracking with our modern, cloud-based platform.</p>
           </div>
+          
+          {/* Decorative Circles matching the UI aesthetic */}
+          <div className="absolute -bottom-24 -left-24 w-80 h-80 border-[40px] border-white/10 rounded-full z-0"></div>
+          <div className="absolute top-12 -right-12 w-32 h-32 bg-white/10 rounded-full z-0"></div>
         </div>
 
-        {/* Content Area */}
-        <div className="flex-1 px-8 pt-32 pb-10 z-10 flex flex-col bg-white">
+        {/* Right Side: Login Form */}
+        <div className="w-full md:w-1/2 px-8 py-16 md:p-16 flex flex-col justify-center bg-white relative">
+          
           <div className="mb-12">
-            <h1 className="text-2xl font-bold text-[#0A192F] mb-2 tracking-tight">Let's Get You Started</h1>
-            <p className="text-gray-400 text-sm">Tell us something about yourself</p>
+            <h1 className="text-3xl font-bold text-[#0A192F] mb-2 tracking-tight">Let's Get You Started</h1>
+            <p className="text-gray-400 text-sm">Tell us something about yourself to login</p>
           </div>
 
-          {error && <div className="text-red-500 text-sm mb-4 bg-red-50 p-3 rounded-xl">{error}</div>}
+          {error && <div className="text-red-500 text-sm mb-4 bg-red-50 p-4 rounded-2xl font-medium">{error}</div>}
 
-          <form onSubmit={handleSubmit} className="space-y-6 flex-1 flex flex-col relative z-20">
-            <div className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-8 relative z-20">
+            <div className="space-y-6">
               <div className="relative">
                 <input
                   type="text"
                   placeholder="Register No. / Email"
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
-                  className="w-full bg-transparent border-b border-gray-200 py-3 text-sm focus:outline-none focus:border-[var(--primary-blue)] transition-colors placeholder-gray-300"
+                  className="w-full bg-[#F8FAFC] border-none rounded-full px-6 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#0077B6] transition-all placeholder-gray-400"
                   required
                 />
               </div>
@@ -86,37 +88,37 @@ export default function Login() {
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-transparent border-b border-gray-200 py-3 text-sm focus:outline-none focus:border-[var(--primary-blue)] transition-colors placeholder-gray-300 pr-10"
+                  className="w-full bg-[#F8FAFC] border-none rounded-full px-6 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#0077B6] transition-all placeholder-gray-400 pr-12"
                   required
                 />
                 <button 
                   type="button" 
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 p-2"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 p-2"
                 >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
               </div>
             </div>
 
             <div className="text-right">
-              <a href="#" className="text-[10px] text-gray-400 hover:text-[var(--primary-blue)] transition-colors uppercase tracking-wider font-semibold">Forgot Password?</a>
+              <a href="#" className="text-xs text-gray-400 hover:text-[#0077B6] transition-colors font-semibold">Forgot Password?</a>
             </div>
 
-            <div className="mt-12">
+            <div className="mt-8">
               <button 
                 type="submit" 
                 disabled={loginMutation.isPending}
-                className="w-4/5 bg-[#0077B6] text-white font-semibold rounded-full py-4 shadow-[0_8px_20px_rgba(0,119,182,0.3)] hover:bg-[#005f92] transition-colors"
+                className="w-full bg-[#0077B6] text-white font-bold rounded-full py-4 text-lg shadow-[0_8px_20px_rgba(0,119,182,0.3)] hover:bg-[#005f92] hover:shadow-[0_10px_25px_rgba(0,119,182,0.4)] transition-all transform hover:-translate-y-1"
               >
                 {loginMutation.isPending ? 'Logging in...' : "I'm Done"}
               </button>
             </div>
           </form>
+          
+          {/* Mobile bottom decoration (Hidden on desktop) */}
+          <div className="md:hidden absolute -bottom-16 -left-16 w-48 h-48 bg-blue-50/80 rounded-full z-0 pointer-events-none"></div>
         </div>
-        
-        {/* Bottom decorative shape matching screenshot */}
-        <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-blue-50/80 rounded-full z-0 pointer-events-none"></div>
       </div>
     </div>
   );
