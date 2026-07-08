@@ -52,4 +52,26 @@ public class AttendanceController {
         attendanceRepository.saveAll(recordsToSave);
         return ResponseEntity.ok(Map.of("message", "Attendance marked successfully", "count", recordsToSave.size()));
     }
+    @GetMapping("/review")
+    public ResponseEntity<?> getAttendanceForReview(
+            @RequestParam Long classId,
+            @RequestParam String date) {
+        
+        List<Attendance> records = attendanceRepository.findAll().stream()
+                .filter(a -> a.getCourseClass().getId().equals(classId) && a.getDate().equals(date))
+                .toList();
+                
+        return ResponseEntity.ok(records);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateAttendance(@PathVariable Long id, @RequestBody Map<String, String> body) {
+        Attendance attendance = attendanceRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Record not found"));
+        
+        attendance.setStatus(Attendance.AttendanceStatus.valueOf(body.get("status").toUpperCase()));
+        attendanceRepository.save(attendance);
+        
+        return ResponseEntity.ok(Map.of("message", "Attendance updated successfully"));
+    }
 }

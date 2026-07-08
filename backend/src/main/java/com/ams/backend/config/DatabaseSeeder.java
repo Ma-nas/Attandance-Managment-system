@@ -19,6 +19,7 @@ public class DatabaseSeeder implements CommandLineRunner {
     private final DepartmentRepository departmentRepository;
     private final SubjectRepository subjectRepository;
     private final CourseClassRepository classRepository;
+    private final EventRepository eventRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -88,6 +89,66 @@ public class DatabaseSeeder implements CommandLineRunner {
                     .build();
             teacherRepository.save(teacher);
             System.out.println("✅ Seeded test trainer user: trainer@ams.com / trainer123");
+        }
+        if (userRepository.findByEmail("trainer2@ams.com").isEmpty()) {
+            User trainerUser2 = User.builder()
+                    .email("trainer2@ams.com")
+                    .password(passwordEncoder.encode("trainer456"))
+                    .role(Role.TEACHER)
+                    .name("Dr. Sarah Jenkins")
+                    .isActive(true)
+                    .build();
+            userRepository.save(trainerUser2);
+
+            Teacher teacher2 = Teacher.builder()
+                    .user(trainerUser2)
+                    .department(csDept)
+                    .build();
+            teacherRepository.save(teacher2);
+        }
+
+        // Seed 3 more Students
+        String[][] moreStudents = {
+            {"23BTRCL211", "michael.c@student.ams.com", "Michael Chang"},
+            {"23BTRCL212", "sarah.s@student.ams.com", "Sarah Smith"},
+            {"23BTRCL213", "john.d@student.ams.com", "John Doe"}
+        };
+
+        for (String[] st : moreStudents) {
+            if (userRepository.findByEmail(st[1]).isEmpty()) {
+                User sUser = User.builder()
+                        .email(st[1])
+                        .password(passwordEncoder.encode("student123"))
+                        .role(Role.STUDENT)
+                        .name(st[2])
+                        .isActive(true)
+                        .build();
+                userRepository.save(sUser);
+
+                Student student = Student.builder()
+                        .user(sUser)
+                        .rollNumber(st[0])
+                        .department(csDept)
+                        .semester("4")
+                        .section("A")
+                        .build();
+                studentRepository.save(student);
+            }
+        }
+
+        // Seed Events
+        if (eventRepository.count() == 0) {
+            eventRepository.save(Event.builder()
+                    .title("Independence Day")
+                    .type("National Holiday")
+                    .eventDate(java.time.LocalDate.now().plusDays(10))
+                    .build());
+            eventRepository.save(Event.builder()
+                    .title("Mid-Term Exams")
+                    .type("Academic")
+                    .eventDate(java.time.LocalDate.now().plusDays(25))
+                    .build());
+            System.out.println("✅ Seeded events");
         }
     }
 }

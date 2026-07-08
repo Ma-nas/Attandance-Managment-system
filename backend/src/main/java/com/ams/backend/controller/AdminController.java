@@ -30,4 +30,13 @@ public class AdminController {
             "pendingLeaves", 3 // Mock until leave module is implemented
         ));
     }
+    @GetMapping("/students")
+    public ResponseEntity<?> getAllStudents() {
+        return ResponseEntity.ok(studentRepository.findAll());
+    }
+
+    @GetMapping("/teachers")
+    public ResponseEntity<?> getAllTeachers() {
+        return ResponseEntity.ok(teacherRepository.findAll());
+    }
 }

@@ -1,5 +1,6 @@
+import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { Menu, LogOut, ChevronRight } from 'lucide-react';
+import { Menu, LogOut, ChevronRight, Calendar } from 'lucide-react';
 
 export default function StudentDashboard() {
   const navigate = useNavigate();
@@ -8,6 +9,14 @@ export default function StudentDashboard() {
   const attended = 24;
   const total = 30;
   const leavesLeft = 0;
+  const token = localStorage.getItem('auth_token');
+
+  const { data: events } = useQuery({
+    queryKey: ['events'],
+    queryFn: () => fetch('http://localhost:8081/api/events', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    }).then(res => res.json())
+  });
 
   const handleLogout = () => {
     localStorage.removeItem('auth_token');
@@ -100,30 +109,28 @@ export default function StudentDashboard() {
                 </h3>
               </div>
               
-              <div className="space-y-6 relative z-10">
-                <div className="flex items-center gap-4 bg-white/10 p-4 rounded-2xl backdrop-blur-sm hover:bg-white/20 transition-colors cursor-pointer">
-                  <div className="text-center shrink-0 w-12">
-                    <div className="font-black text-xl">15</div>
-                    <div className="text-[10px] uppercase font-bold text-blue-200">Aug</div>
-                  </div>
-                  <div className="h-10 w-px bg-white/20"></div>
-                  <div>
-                    <div className="font-bold text-base leading-tight">Independence Day</div>
-                    <div className="text-xs text-blue-100 mt-1">National Holiday</div>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4 bg-white/10 p-4 rounded-2xl backdrop-blur-sm hover:bg-white/20 transition-colors cursor-pointer">
-                  <div className="text-center shrink-0 w-12">
-                    <div className="font-black text-xl">20</div>
-                    <div className="text-[10px] uppercase font-bold text-blue-200">Aug</div>
-                  </div>
-                  <div className="h-10 w-px bg-white/20"></div>
-                  <div>
-                    <div className="font-bold text-base leading-tight">Onam Festival</div>
-                    <div className="text-xs text-blue-100 mt-1">Regional Holiday</div>
-                  </div>
-                </div>
+              <div className="space-y-6 relative z-10 overflow-y-auto max-h-[300px] pr-2 custom-scrollbar">
+                {events?.map((event: any) => {
+                  const dateObj = new Date(event.eventDate);
+                  return (
+                    <div key={event.id} className="flex items-center gap-4 bg-white/10 p-4 rounded-2xl backdrop-blur-sm hover:bg-white/20 transition-colors cursor-pointer group">
+                      <div className="text-center shrink-0 w-12">
+                        <div className="font-black text-xl group-hover:scale-110 transition-transform">{dateObj.getDate()}</div>
+                        <div className="text-[10px] uppercase font-bold text-blue-200">{dateObj.toLocaleString('default', { month: 'short' })}</div>
+                      </div>
+                      <div className="h-10 w-px bg-white/20"></div>
+                      <div>
+                        <div className="font-bold text-base leading-tight">{event.title}</div>
+                        <div className="text-xs text-blue-100 mt-1 flex items-center gap-1">
+                           {event.type}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+                {events?.length === 0 && (
+                  <div className="text-center text-blue-200 text-sm mt-8">No upcoming events</div>
+                )}
               </div>
               
               {/* Background abstract circles */}
