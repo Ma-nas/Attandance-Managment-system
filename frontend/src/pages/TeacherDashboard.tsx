@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { LogOut, ChevronRight, CheckCircle, XCircle, Menu } from 'lucide-react';
+import { LogOut, ChevronRight, CheckCircle, XCircle, Menu, Calendar, Users, BookOpen, ArrowLeft } from 'lucide-react';
 
 export default function TeacherDashboard() {
   const navigate = useNavigate();
+  const [activeView, setActiveView] = useState<'overview' | 'take_attendance'>('overview');
   const [department, setDepartment] = useState('');
   const [semester, setSemester] = useState('');
   const [section, setSection] = useState('');
@@ -84,6 +85,7 @@ export default function TeacherDashboard() {
       alert("Attendance Saved Successfully!");
       setShowRoster(false);
       setStudents([]);
+      setActiveView('overview');
     }
   });
 
@@ -105,109 +107,160 @@ export default function TeacherDashboard() {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 w-full max-w-5xl mx-auto p-6 md:p-10 flex flex-col gap-8">
+      <div className="flex-1 w-full max-w-6xl mx-auto p-6 md:p-10 flex flex-col gap-8">
         
-        <div className="text-center md:text-left mb-4">
-          <h1 className="text-3xl font-bold text-[#0A192F] tracking-tight">Mark Attendance</h1>
-          <p className="text-gray-500 text-sm font-medium mt-2">Select class parameters to fetch the student roster</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-          
-          {/* Form Card */}
-          <div className={`bg-white rounded-[40px] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 ${showRoster ? 'md:opacity-50 md:pointer-events-none' : ''} transition-all`}>
-            <form onSubmit={handleFetchStudents} className="space-y-6">
-              <div>
-                <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 ml-4">Department</label>
-                <select value={department} onChange={e => setDepartment(e.target.value)} className="w-full bg-[#F8FAFC] border-none rounded-full px-6 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#0077B6] transition-all cursor-pointer">
-                  <option value="">-- Select --</option>
-                  {deps?.map((d: any) => <option key={d.id} value={d.id}>{d.name}</option>)}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 ml-4">Semester</label>
-                <select value={semester} onChange={e => setSemester(e.target.value)} disabled={!department} className="w-full bg-[#F8FAFC] border-none rounded-full px-6 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#0077B6] transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
-                  <option value="">-- Select --</option>
-                  {availableSemesters.map((s: number) => <option key={s} value={s}>Semester {s}</option>)}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 ml-4">Section</label>
-                <select value={section} onChange={e => setSection(e.target.value)} disabled={!semester} className="w-full bg-[#F8FAFC] border-none rounded-full px-6 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#0077B6] transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
-                  <option value="">-- Select --</option>
-                  {availableSections.map((s: string) => <option key={s} value={s}>{s}</option>)}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 ml-4">Subject</label>
-                <select value={subject} onChange={e => setSubject(e.target.value)} disabled={!department} className="w-full bg-[#F8FAFC] border-none rounded-full px-6 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#0077B6] transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
-                  <option value="">-- Select --</option>
-                  {availableSubjects.map((s: any) => <option key={s.id} value={s.id}>{s.name} ({s.code})</option>)}
-                </select>
-              </div>
-
-              <div className="pt-4">
-                <button type="submit" className="w-full bg-[#0077B6] text-white font-bold rounded-full py-4 text-lg shadow-[0_8px_20px_rgba(0,119,182,0.3)] hover:bg-[#005f92] transition-colors">
-                  Fetch Roster
-                </button>
-              </div>
-            </form>
-          </div>
-
-          {/* Roster Card */}
-          {showRoster && (
-            <div className="bg-white rounded-[40px] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-gray-100 flex flex-col h-[700px]">
-              <div className="p-6 border-b border-gray-100 bg-gray-50 flex justify-between items-center shrink-0">
-                <h2 className="font-bold text-[#0A192F] text-lg">Student Roster</h2>
-                <button onClick={() => setShowRoster(false)} className="text-xs font-bold text-[#0077B6] uppercase tracking-wider bg-blue-50 px-4 py-2 rounded-full hover:bg-blue-100 transition-colors">
-                  Change Class
-                </button>
-              </div>
-
-              <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-[#F8FAFC]">
-                {students.map((student) => (
-                  <div key={student.id} className="bg-white p-5 rounded-3xl shadow-sm hover:shadow-md border border-gray-100 flex items-center justify-between transition-shadow">
-                    <div>
-                      <div className="font-bold text-base text-[#0A192F]">{student.name}</div>
-                      <div className="text-xs text-gray-400 font-semibold mt-1">{student.roll}</div>
-                    </div>
-                    <div className="flex gap-3">
-                      <button 
-                        onClick={() => markStudent(student.id, 'present')}
-                        className={`p-3 rounded-full transition-all ${student.status === 'present' ? 'bg-green-100 text-green-600 ring-2 ring-green-600 shadow-inner' : 'bg-gray-100 text-gray-400 hover:bg-green-50 hover:text-green-500'}`}
-                      >
-                        <CheckCircle className="w-6 h-6" />
-                      </button>
-                      <button 
-                        onClick={() => markStudent(student.id, 'absent')}
-                        className={`p-3 rounded-full transition-all ${student.status === 'absent' ? 'bg-red-100 text-red-600 ring-2 ring-red-600 shadow-inner' : 'bg-gray-100 text-gray-400 hover:bg-red-50 hover:text-red-500'}`}
-                      >
-                        <XCircle className="w-6 h-6" />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-                {students.length === 0 && (
-                  <div className="text-center p-10 text-gray-400 font-semibold">No students found.</div>
-                )}
-              </div>
-
-              <div className="p-6 bg-white border-t border-gray-100 shrink-0">
+        {activeView === 'overview' && (
+          <div className="flex flex-col gap-8">
+            <div className="bg-gradient-to-r from-[#00A6DA] to-[#0077B6] rounded-[40px] p-10 md:p-16 text-white shadow-xl relative overflow-hidden">
+              <div className="relative z-10 max-w-xl">
+                <h2 className="text-4xl md:text-5xl font-black mb-4 tracking-tight">Welcome back, Professor!</h2>
+                <p className="text-blue-100 text-lg md:text-xl font-medium mb-10">You have 3 classes scheduled for today. Ready to take attendance?</p>
                 <button 
-                  onClick={() => submitMutation.mutate()}
-                  disabled={submitMutation.isPending || students.some(s => s.status === null)}
-                  className="w-full bg-[#0077B6] text-white font-bold rounded-full py-4 text-lg shadow-[0_8px_20px_rgba(0,119,182,0.3)] hover:bg-[#005f92] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  onClick={() => setActiveView('take_attendance')}
+                  className="bg-white text-[#0077B6] font-bold px-10 py-5 rounded-full text-lg shadow-lg hover:bg-blue-50 hover:shadow-xl hover:-translate-y-1 transition-all active:translate-y-0"
                 >
-                  {submitMutation.isPending ? 'Saving...' : 'Save Attendance'}
+                  Start Attendance Session
                 </button>
+              </div>
+              <div className="absolute -right-20 -bottom-20 w-96 h-96 border-[40px] border-white/10 rounded-full pointer-events-none"></div>
+              <div className="absolute right-32 top-10 w-48 h-48 border-[20px] border-white/10 rounded-full pointer-events-none"></div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full">
+              <div className="bg-white rounded-[32px] p-8 shadow-sm border border-gray-50 flex flex-col items-center hover:shadow-md transition-shadow">
+                <div className="p-4 bg-purple-50 rounded-full mb-4"><Calendar className="w-8 h-8 text-purple-500" /></div>
+                <div className="text-4xl font-bold text-[#0A192F]">3</div>
+                <div className="text-xs text-gray-400 font-bold uppercase tracking-wider mt-2 text-center">Classes Today</div>
+              </div>
+
+              <div className="bg-white rounded-[32px] p-8 shadow-sm border border-gray-50 flex flex-col items-center hover:shadow-md transition-shadow">
+                <div className="p-4 bg-green-50 rounded-full mb-4"><Users className="w-8 h-8 text-green-500" /></div>
+                <div className="text-4xl font-bold text-[#0A192F]">142</div>
+                <div className="text-xs text-gray-400 font-bold uppercase tracking-wider mt-2 text-center">Total Students</div>
+              </div>
+
+              <div className="bg-white rounded-[32px] p-8 shadow-sm border border-gray-50 flex flex-col items-center hover:shadow-md transition-shadow">
+                <div className="p-4 bg-yellow-50 rounded-full mb-4"><BookOpen className="w-8 h-8 text-yellow-500" /></div>
+                <div className="text-4xl font-bold text-[#0A192F]">5</div>
+                <div className="text-xs text-gray-400 font-bold uppercase tracking-wider mt-2 text-center">Subjects Taught</div>
               </div>
             </div>
-          )}
+          </div>
+        )}
 
-        </div>
+        {activeView === 'take_attendance' && (
+          <div className="flex flex-col gap-8 w-full max-w-5xl mx-auto">
+            <div className="flex items-center gap-4">
+              <button 
+                onClick={() => setActiveView('overview')}
+                className="p-3 bg-white text-gray-500 hover:text-[#0077B6] rounded-full shadow-sm hover:shadow-md transition-all"
+              >
+                <ArrowLeft className="w-6 h-6" />
+              </button>
+              <div>
+                <h1 className="text-3xl font-bold text-[#0A192F] tracking-tight">Mark Attendance</h1>
+                <p className="text-gray-500 text-sm font-medium mt-1">Select class parameters to fetch the student roster</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+              
+              {/* Form Card */}
+              <div className={`bg-white rounded-[40px] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 ${showRoster ? 'md:opacity-50 md:pointer-events-none' : ''} transition-all`}>
+                <form onSubmit={handleFetchStudents} className="space-y-6">
+                  <div>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 ml-4">Department</label>
+                    <select value={department} onChange={e => setDepartment(e.target.value)} className="w-full bg-[#F8FAFC] border-none rounded-full px-6 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#0077B6] transition-all cursor-pointer">
+                      <option value="">-- Select --</option>
+                      {deps?.map((d: any) => <option key={d.id} value={d.id}>{d.name}</option>)}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 ml-4">Semester</label>
+                    <select value={semester} onChange={e => setSemester(e.target.value)} disabled={!department} className="w-full bg-[#F8FAFC] border-none rounded-full px-6 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#0077B6] transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                      <option value="">-- Select --</option>
+                      {availableSemesters.map((s: number) => <option key={s} value={s}>Semester {s}</option>)}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 ml-4">Section</label>
+                    <select value={section} onChange={e => setSection(e.target.value)} disabled={!semester} className="w-full bg-[#F8FAFC] border-none rounded-full px-6 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#0077B6] transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                      <option value="">-- Select --</option>
+                      {availableSections.map((s: string) => <option key={s} value={s}>{s}</option>)}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 ml-4">Subject</label>
+                    <select value={subject} onChange={e => setSubject(e.target.value)} disabled={!department} className="w-full bg-[#F8FAFC] border-none rounded-full px-6 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#0077B6] transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                      <option value="">-- Select --</option>
+                      {availableSubjects.map((s: any) => <option key={s.id} value={s.id}>{s.name} ({s.code})</option>)}
+                    </select>
+                  </div>
+
+                  <div className="pt-4">
+                    <button type="submit" className="w-full bg-[#0077B6] text-white font-bold rounded-full py-4 text-lg shadow-[0_8px_20px_rgba(0,119,182,0.3)] hover:bg-[#005f92] transition-colors">
+                      Fetch Roster
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+              {/* Roster Card */}
+              {showRoster && (
+                <div className="bg-white rounded-[40px] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-gray-100 flex flex-col h-[700px]">
+                  <div className="p-6 border-b border-gray-100 bg-gray-50 flex justify-between items-center shrink-0">
+                    <h2 className="font-bold text-[#0A192F] text-lg">Student Roster</h2>
+                    <button onClick={() => setShowRoster(false)} className="text-xs font-bold text-[#0077B6] uppercase tracking-wider bg-blue-50 px-4 py-2 rounded-full hover:bg-blue-100 transition-colors">
+                      Change Class
+                    </button>
+                  </div>
+
+                  <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-[#F8FAFC]">
+                    {students.map((student) => (
+                      <div key={student.id} className="bg-white p-5 rounded-3xl shadow-sm hover:shadow-md border border-gray-100 flex items-center justify-between transition-shadow">
+                        <div>
+                          <div className="font-bold text-base text-[#0A192F]">{student.name}</div>
+                          <div className="text-xs text-gray-400 font-semibold mt-1">{student.roll}</div>
+                        </div>
+                        <div className="flex gap-3">
+                          <button 
+                            onClick={() => markStudent(student.id, 'present')}
+                            className={`p-3 rounded-full transition-all ${student.status === 'present' ? 'bg-green-100 text-green-600 ring-2 ring-green-600 shadow-inner' : 'bg-gray-100 text-gray-400 hover:bg-green-50 hover:text-green-500'}`}
+                          >
+                            <CheckCircle className="w-6 h-6" />
+                          </button>
+                          <button 
+                            onClick={() => markStudent(student.id, 'absent')}
+                            className={`p-3 rounded-full transition-all ${student.status === 'absent' ? 'bg-red-100 text-red-600 ring-2 ring-red-600 shadow-inner' : 'bg-gray-100 text-gray-400 hover:bg-red-50 hover:text-red-500'}`}
+                          >
+                            <XCircle className="w-6 h-6" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                    {students.length === 0 && (
+                      <div className="text-center p-10 text-gray-400 font-semibold">No students found.</div>
+                    )}
+                  </div>
+
+                  <div className="p-6 bg-white border-t border-gray-100 shrink-0">
+                    <button 
+                      onClick={() => submitMutation.mutate()}
+                      disabled={submitMutation.isPending || students.some(s => s.status === null)}
+                      className="w-full bg-[#0077B6] text-white font-bold rounded-full py-4 text-lg shadow-[0_8px_20px_rgba(0,119,182,0.3)] hover:bg-[#005f92] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {submitMutation.isPending ? 'Saving...' : 'Save Attendance'}
+                    </button>
+                  </div>
+                </div>
+              )}
+
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

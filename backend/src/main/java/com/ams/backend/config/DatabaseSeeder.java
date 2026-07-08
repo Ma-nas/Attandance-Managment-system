@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -20,6 +21,7 @@ public class DatabaseSeeder implements CommandLineRunner {
     private final SubjectRepository subjectRepository;
     private final CourseClassRepository classRepository;
     private final EventRepository eventRepository;
+    private final AttendanceRepository attendanceRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -149,6 +151,28 @@ public class DatabaseSeeder implements CommandLineRunner {
                     .eventDate(java.time.LocalDate.now().plusDays(25))
                     .build());
             System.out.println("✅ Seeded events");
+        }
+
+        // Seed Mock Attendance
+        if (attendanceRepository.count() == 0) {
+            Teacher teacher = teacherRepository.findAll().stream().findFirst().orElseThrow();
+            
+            java.time.LocalDate today = java.time.LocalDate.now();
+            List<Student> allStudents = studentRepository.findAll();
+            
+            for (int i = 0; i < allStudents.size(); i++) {
+                Student s = allStudents.get(i);
+                attendanceRepository.save(Attendance.builder()
+                        .student(s)
+                        .teacher(teacher)
+                        .courseClass(csClass)
+                        .subject(algoSubject)
+                        .date(today)
+                        .timeSlot("Morning")
+                        .status(i % 3 == 0 ? Attendance.AttendanceStatus.ABSENT : Attendance.AttendanceStatus.PRESENT) // 1 in 3 absent
+                        .build());
+            }
+            System.out.println("✅ Seeded mock attendance records for today");
         }
     }
 }
