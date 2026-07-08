@@ -1,67 +1,51 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
-  --font-sans: 'Inter', sans-serif;
-  --font-mono: 'Space Mono', monospace;
-  
-  --color-stark-border: #333333;
-  --color-card-bg: #000000;
-  --color-muted: #888888;
+@layer base {
+  :root {
+    --primary-navy: #0A192F;
+    --primary-blue: #0077B6;
+    --accent-blue: #00B4D8;
+    --bg-light: #F3F7FA;
+    --text-main: #333333;
+    --text-muted: #888888;
+  }
+
+  body {
+    @apply bg-[var(--bg-light)] text-[var(--text-main)] font-sans antialiased;
+    margin: 0;
+    min-height: 100vh;
+  }
 }
 
-body {
-  background-color: #000000;
-  color: #ffffff;
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  min-height: 100vh;
+@layer components {
+  .modern-card {
+    @apply bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300;
+  }
+
+  .modern-button {
+    @apply bg-[var(--primary-blue)] text-white font-semibold rounded-full px-8 py-4 
+           shadow-[0_4px_14px_0_rgba(0,119,182,0.39)] hover:shadow-[0_6px_20px_rgba(0,119,182,0.23)] 
+           hover:bg-[var(--accent-blue)] transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  .modern-input {
+    @apply w-full bg-[#F8FAFC] border-none rounded-full px-6 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent-blue)] transition-all;
+  }
+
+  .modern-select {
+    @apply w-full bg-[#F8FAFC] border-none rounded-full px-6 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent-blue)] transition-all appearance-none cursor-pointer;
+  }
+
+  .navy-header {
+    @apply bg-[var(--primary-navy)] text-white rounded-b-[40px] shadow-lg;
+  }
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-sans);
-}
-
-.brutalist-input {
-  background-color: #000000;
-  border: 1px solid #333333;
-  color: #ffffff;
-  padding: 0.75rem 1rem;
-  font-family: var(--font-mono);
-  outline: none;
-  transition: all 0.2s;
-}
-
-.brutalist-input:focus {
-  border-color: #ffffff;
-}
-
-.brutalist-button {
-  background-color: #ffffff;
-  color: #000000;
-  border: 1px solid #ffffff;
-  padding: 0.75rem 1rem;
-  font-family: var(--font-mono);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  transition: all 0.2s;
-}
-
-.brutalist-button:hover {
-  background-color: #000000;
-  color: #ffffff;
-}
-
-.brutalist-card {
-  background-color: var(--color-card-bg);
-  border: 1px solid var(--color-stark-border);
-  box-shadow: 8px 8px 0px 0px #262626;
-  transition: all 0.3s;
-}
-
-.brutalist-card:hover {
-  border-color: #ffffff;
-  box-shadow: 8px 8px 0px 0px #ffffff;
+/* Background blob decorations for login/dashboard */
+.bg-blobs {
+  background-image: 
+    radial-gradient(circle at 15% 50%, rgba(0, 180, 216, 0.1), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(0, 119, 182, 0.05), transparent 25%);
 }
