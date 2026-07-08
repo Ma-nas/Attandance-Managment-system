@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+  
+  --color-stark-border: #333333;
+  --color-card-bg: #000000;
+  --color-muted: #888888;
+}
+
+body {
+  background-color: #000000;
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+}
+
+.brutalist-input {
+  background-color: #000000;
+  border: 1px solid #333333;
+  color: #ffffff;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-mono);
+  outline: none;
+  transition: all 0.2s;
+}
+
+.brutalist-input:focus {
+  border-color: #ffffff;
+}
+
+.brutalist-button {
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid #ffffff;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.2s;
+}
+
+.brutalist-button:hover {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.brutalist-card {
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-stark-border);
+  box-shadow: 8px 8px 0px 0px #262626;
+  transition: all 0.3s;
+}
+
+.brutalist-card:hover {
+  border-color: #ffffff;
+  box-shadow: 8px 8px 0px 0px #ffffff;
+}

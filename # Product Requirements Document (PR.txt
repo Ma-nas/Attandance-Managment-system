@@ -1,0 +1,930 @@
+# Product Requirements Document (PRD)
+
+## Attendance Management System (AMS)
+
+**Version:** 1.0
+**Author:** Manas Mishra
+**Status:** Planning
+**Project Type:** Enterprise Full-Stack Web Application
+
+---
+
+# 1. Executive Summary
+
+The Attendance Management System (AMS) is a secure, scalable, cloud-ready web application designed to digitize attendance management for educational institutions and organizations.
+
+The system replaces manual attendance registers with a centralized platform that supports:
+
+* Role-based access
+* Attendance tracking
+* Leave management
+* Reporting
+* Analytics
+* Notifications
+* Audit logging
+* Secure authentication
+
+The application is designed using enterprise software engineering principles with emphasis on:
+
+* Security
+* Scalability
+* Performance
+* Reliability
+* Maintainability
+
+---
+
+# 2. Problem Statement
+
+Current attendance systems suffer from:
+
+* Manual registers
+* Human errors
+* Proxy attendance
+* Difficult report generation
+* Lack of transparency
+* Poor analytics
+* Security vulnerabilities
+* No centralized management
+
+AMS solves these issues through automation.
+
+---
+
+# 3. Objectives
+
+### Primary Goals
+
+* Digitize attendance
+* Reduce administrative workload
+* Improve attendance accuracy
+* Enable real-time monitoring
+* Generate automatic reports
+
+### Secondary Goals
+
+* Mobile compatibility
+* Cloud deployment
+* API support
+* High availability
+* Enterprise-grade security
+
+---
+
+# 4. Stakeholders
+
+* Super Admin
+* Institute Administrator
+* Teachers
+* Students
+* Parents (Optional)
+* HR Manager (Corporate Mode)
+* System Administrator
+
+---
+
+# 5. User Roles
+
+## Super Admin
+
+Permissions
+
+* Manage organizations
+* Manage institutes
+* Manage admins
+* Configure system
+* View logs
+* Manage subscriptions
+* Backup database
+* Restore database
+
+---
+
+## Admin
+
+Permissions
+
+* Manage teachers
+* Manage students
+* Create classes
+* Manage departments
+* Assign teachers
+* Create semesters
+* Generate reports
+* Approve leave requests
+
+---
+
+## Teacher
+
+Permissions
+
+* Login
+* View timetable
+* Mark attendance
+* Edit attendance (within allowed time)
+* View reports
+* View student statistics
+
+---
+
+## Student
+
+Permissions
+
+* Login
+* View attendance
+* View percentage
+* Download reports
+* Submit leave requests
+* Receive notifications
+
+---
+
+## Parent (Optional)
+
+Permissions
+
+* View student's attendance
+* Receive notifications
+* View leave status
+
+---
+
+# 6. Functional Requirements
+
+## Authentication Module
+
+Features
+
+* Login
+* Logout
+* Forgot Password
+* Password Reset
+* Email Verification
+* Session Management
+* Refresh Tokens
+* Remember Me
+
+Security
+
+* JWT Authentication
+* OAuth2 Ready
+* MFA Support
+* Password Hashing
+* Session Timeout
+
+---
+
+## Dashboard
+
+Admin Dashboard
+
+Widgets
+
+* Total Students
+* Total Teachers
+* Today's Attendance
+* Attendance Percentage
+* Leave Requests
+* Active Classes
+* Monthly Trends
+
+Teacher Dashboard
+
+Widgets
+
+* Today's Classes
+* Pending Attendance
+* Attendance Statistics
+
+Student Dashboard
+
+Widgets
+
+* Overall Attendance
+* Subject-wise Attendance
+* Leave Status
+* Notifications
+
+---
+
+# 7. Attendance Module
+
+Teacher Workflow
+
+Select
+
+Department
+
+↓
+
+Semester
+
+↓
+
+Section
+
+↓
+
+Subject
+
+↓
+
+Date
+
+↓
+
+Time Slot
+
+↓
+
+Student List
+
+↓
+
+Mark Attendance
+
+↓
+
+Save
+
+↓
+
+Confirmation
+
+Attendance Status
+
+* Present
+* Absent
+* Late
+* Excused
+* Medical Leave
+* Holiday
+
+Attendance Editing Rules
+
+* Editable for 24 hours
+* Admin override available
+* All edits logged
+* Version history maintained
+
+---
+
+# 8. Student Management
+
+Fields
+
+* Student ID
+* Roll Number
+* Name
+* Email
+* Phone
+* Department
+* Semester
+* Section
+* Parent Details
+* Emergency Contact
+* Photo
+* Status
+
+Operations
+
+* Add
+* Edit
+* Delete
+* Bulk Import
+* Export
+* Search
+* Filter
+
+---
+
+# 9. Teacher Management
+
+Fields
+
+* Teacher ID
+* Name
+* Email
+* Phone
+* Department
+* Subjects
+* Assigned Classes
+
+Operations
+
+* Add
+* Remove
+* Edit
+* Assign Subjects
+
+---
+
+# 10. Subject Management
+
+Fields
+
+* Subject Code
+* Subject Name
+* Credits
+* Teacher
+* Semester
+* Department
+
+---
+
+# 11. Department Module
+
+Operations
+
+* Add Department
+* Update Department
+* Delete Department
+* Assign HOD
+
+---
+
+# 12. Class Module
+
+Features
+
+* Create Class
+* Assign Teacher
+* Semester
+* Batch
+* Section
+* Classroom
+* Timetable
+
+---
+
+# 13. Leave Management
+
+Students
+
+* Apply Leave
+* Upload Documents
+* Track Status
+
+Teachers
+
+* Approve
+* Reject
+* Comment
+
+Leave Types
+
+* Medical
+* Personal
+* Official
+* Emergency
+
+---
+
+# 14. Notification Module
+
+Channels
+
+* Email
+* SMS
+* Push Notification
+* In-App Notification
+
+Triggers
+
+* Attendance below threshold
+* Leave approved
+* Leave rejected
+* Attendance submitted
+* Password reset
+
+---
+
+# 15. Reports
+
+Reports
+
+Daily Attendance
+
+Weekly Attendance
+
+Monthly Attendance
+
+Semester Report
+
+Subject Report
+
+Teacher Report
+
+Department Report
+
+Low Attendance Report
+
+Leave Report
+
+Exports
+
+* PDF
+* Excel
+* CSV
+
+---
+
+# 16. Analytics
+
+Charts
+
+Attendance Trend
+
+Heatmaps
+
+Department Comparison
+
+Student Ranking
+
+Risk Prediction
+
+Average Attendance
+
+Monthly Growth
+
+---
+
+# 17. Audit Logs
+
+Every action recorded
+
+Fields
+
+* User
+* IP Address
+* Device
+* Browser
+* Timestamp
+* Action
+* Old Value
+* New Value
+
+Immutable logs
+
+---
+
+# 18. Search System
+
+Global Search
+
+Search by
+
+* Name
+* Roll Number
+* Email
+* Subject
+* Teacher
+* Department
+
+Advanced Filters
+
+---
+
+# 19. Database Design
+
+Entities
+
+* User
+* Role
+* Student
+* Teacher
+* Department
+* Class
+* Subject
+* Attendance
+* AttendanceHistory
+* Leave
+* Notification
+* AuditLog
+* Timetable
+* Semester
+* Organization
+* Settings
+* Session
+* RefreshToken
+
+Estimated Tables
+
+20–25
+
+---
+
+# 20. API Design
+
+Authentication
+
+POST /login
+
+POST /logout
+
+POST /refresh
+
+POST /forgot-password
+
+POST /reset-password
+
+Attendance
+
+GET /attendance
+
+POST /attendance
+
+PUT /attendance
+
+DELETE /attendance
+
+Student
+
+GET /students
+
+POST /students
+
+PUT /students/{id}
+
+DELETE /students/{id}
+
+Reports
+
+GET /reports
+
+GET /analytics
+
+---
+
+# 21. Security Requirements
+
+Authentication
+
+JWT
+
+Refresh Tokens
+
+Access Tokens
+
+RBAC
+
+Password Policy
+
+Minimum 12 characters
+
+Uppercase
+
+Lowercase
+
+Number
+
+Special Character
+
+Passwords
+
+BCrypt hashing
+
+Never stored in plaintext
+
+Protection
+
+CSRF
+
+XSS
+
+SQL Injection
+
+Clickjacking
+
+Rate Limiting
+
+Brute Force Detection
+
+IP Blocking
+
+CAPTCHA
+
+Account Lockout
+
+HTTPS Only
+
+Secure Cookies
+
+CORS
+
+Security Headers
+
+CSP
+
+HSTS
+
+X-Frame-Options
+
+X-Content-Type-Options
+
+Encryption
+
+AES-256
+
+TLS 1.3
+
+Database
+
+Parameterized Queries
+
+ORM
+
+Encrypted backups
+
+Least privilege access
+
+Audit logs
+
+Session Security
+
+Idle timeout
+
+Concurrent session limit
+
+Token rotation
+
+Logout everywhere
+
+---
+
+# 22. Non-Functional Requirements
+
+Availability
+
+99.9%
+
+Scalability
+
+100,000+ students
+
+Performance
+
+API <300 ms
+
+Dashboard <2 seconds
+
+Reliability
+
+Automatic backups
+
+Horizontal scaling
+
+Maintainability
+
+Clean Architecture
+
+SOLID Principles
+
+Testing
+
+Accessibility
+
+WCAG compliant
+
+---
+
+# 23. Technology Stack
+
+Frontend
+
+React
+
+TypeScript
+
+Tailwind CSS
+
+React Query
+
+React Router
+
+Backend
+
+Java 21
+
+Spring Boot
+
+Spring Security
+
+Spring Data JPA
+
+Hibernate
+
+Database
+
+PostgreSQL
+
+Redis
+
+Object Storage
+
+AWS S3 compatible
+
+Authentication
+
+JWT
+
+OAuth2
+
+Email
+
+SMTP
+
+Deployment
+
+Docker
+
+NGINX
+
+GitHub Actions
+
+Cloud
+
+AWS
+
+Azure
+
+DigitalOcean
+
+Monitoring
+
+Prometheus
+
+Grafana
+
+ELK Stack
+
+---
+
+# 24. Folder Structure
+
+Frontend
+
+* Authentication
+* Dashboard
+* Attendance
+* Students
+* Teachers
+* Reports
+* Analytics
+* Components
+* Services
+* Hooks
+* Utils
+
+Backend
+
+* Config
+* Security
+* Controllers
+* Services
+* DTOs
+* Entities
+* Repositories
+* Exceptions
+* Validators
+* Utilities
+* Mappers
+* Tests
+
+---
+
+# 25. Testing Strategy
+
+Unit Tests
+
+Integration Tests
+
+API Tests
+
+Security Tests
+
+Load Tests
+
+Stress Tests
+
+Regression Tests
+
+Accessibility Tests
+
+Browser Compatibility Tests
+
+---
+
+# 26. Backup Strategy
+
+Daily incremental backup
+
+Weekly full backup
+
+Monthly archive
+
+Point-in-time recovery
+
+Encrypted backups
+
+Off-site storage
+
+---
+
+# 27. Logging
+
+Application Logs
+
+Access Logs
+
+Security Logs
+
+Database Logs
+
+Error Logs
+
+Audit Logs
+
+Centralized log aggregation
+
+---
+
+# 28. Future Roadmap
+
+Phase 1
+
+Core attendance
+
+Reports
+
+Authentication
+
+Phase 2
+
+QR Attendance
+
+Face Recognition
+
+GPS Attendance
+
+Phase 3
+
+AI Attendance Prediction
+
+Attendance Fraud Detection
+
+Behavior Analytics
+
+Machine Learning Insights
+
+Mobile Applications
+
+Biometric Integration
+
+Offline Synchronization
+
+Multi-Tenant SaaS Support
+
+---
+
+# 29. Success Metrics (KPIs)
+
+* Attendance submission completion rate >99%
+* Average attendance marking time <60 seconds per class
+* API success rate >99.9%
+* System uptime >99.9%
+* Login success rate >98%
+* Attendance report generation <5 seconds
+* Zero critical security vulnerabilities in production
+* Database backup recovery tested successfully every month
+
+---
+
+# 30. Risks and Mitigation
+
+| Risk                    | Impact | Mitigation                            |
+| ----------------------- | ------ | ------------------------------------- |
+| Proxy attendance        | High   | QR, GPS, Face Recognition, Audit Logs |
+| Database failure        | High   | Replication, Automated Backups        |
+| Unauthorized access     | High   | RBAC, MFA, JWT, Encryption            |
+| DDoS attacks            | High   | WAF, Rate Limiting, CDN               |
+| Data loss               | High   | Versioned Backups, Disaster Recovery  |
+| Performance degradation | Medium | Redis Caching, Database Indexing      |
+| Insider misuse          | Medium | Immutable Audit Logs, Least Privilege |
+| API abuse               | Medium | API Keys, Rate Limits, Monitoring     |
+
+---
+
+# 31. Acceptance Criteria
+
+* Users can securely authenticate and authorize based on role.
+* Teachers can mark attendance in under one minute for a typical class.
+* Students can view real-time attendance percentages.
+* Admins can generate PDF, Excel, and CSV reports.
+* All sensitive actions are recorded in audit logs.
+* Passwords and tokens are securely managed.
+* APIs meet defined performance targets.
+* The application passes automated unit, integration, and security testing.
+* The system can scale to support at least 100,000 active student records without architectural changes.
