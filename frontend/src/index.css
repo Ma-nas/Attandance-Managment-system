@@ -20,35 +20,6 @@
   }
 }
 
-@layer components {
-  .modern-card {
-    @apply bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300;
-  }
-
-  .modern-button {
-    @apply text-white font-semibold rounded-full px-8 py-4 
-           shadow-[0_4px_14px_0_rgba(0,119,182,0.39)] hover:shadow-[0_6px_20px_rgba(0,119,182,0.23)] 
-           transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0;
-    background-color: var(--primary-blue);
-  }
-  
-  .modern-button:hover {
-    background-color: var(--accent-blue);
-  }
-
-  .modern-input {
-    @apply w-full bg-slate-100 text-slate-900 border-none rounded-full px-6 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent-blue)] transition-all;
-  }
-
-  .modern-select {
-    @apply w-full bg-slate-100 text-slate-900 border-none rounded-full px-6 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent-blue)] transition-all appearance-none cursor-pointer;
-  }
-
-  .navy-header {
-    @apply text-white rounded-b-[40px] shadow-lg;
-    background-color: var(--primary-navy);
-  }
-}
 
 /* Background blob decorations for login/dashboard */
 .bg-blobs {
