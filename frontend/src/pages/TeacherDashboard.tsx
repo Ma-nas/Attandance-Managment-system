@@ -92,8 +92,8 @@ export default function TeacherDashboard() {
   });
 
   return (
-    <div className="min-h-screen bg-blobs bg-[var(--bg-light)] flex flex-col items-center">
-      <div className="w-full max-w-2xl bg-[var(--bg-light)] min-h-screen relative shadow-2xl flex flex-col">
+    <div className="min-h-screen bg-blobs bg-slate-50 flex flex-col items-center">
+      <div className="w-full max-w-2xl bg-slate-50 min-h-screen relative shadow-2xl flex flex-col">
         
         {/* Navy Header */}
         <div className="navy-header p-6 pb-12 flex justify-between items-center rounded-b-[40px] relative z-10">

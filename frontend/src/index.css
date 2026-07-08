@@ -13,7 +13,9 @@
   }
 
   body {
-    @apply bg-[var(--bg-light)] text-[var(--text-main)] font-sans antialiased;
+    @apply font-sans antialiased;
+    background-color: var(--bg-light);
+    color: var(--text-main);
     margin: 0;
     min-height: 100vh;
   }
@@ -25,9 +27,14 @@
   }
 
   .modern-button {
-    @apply bg-[var(--primary-blue)] text-white font-semibold rounded-full px-8 py-4 
+    @apply text-white font-semibold rounded-full px-8 py-4 
            shadow-[0_4px_14px_0_rgba(0,119,182,0.39)] hover:shadow-[0_6px_20px_rgba(0,119,182,0.23)] 
-           hover:bg-[var(--accent-blue)] transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0;
+           transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0;
+    background-color: var(--primary-blue);
+  }
+  
+  .modern-button:hover {
+    background-color: var(--accent-blue);
   }
 
   .modern-input {
@@ -39,7 +46,8 @@
   }
 
   .navy-header {
-    @apply bg-[var(--primary-navy)] text-white rounded-b-[40px] shadow-lg;
+    @apply text-white rounded-b-[40px] shadow-lg;
+    background-color: var(--primary-navy);
   }
 }
 

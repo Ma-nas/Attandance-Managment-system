@@ -50,7 +50,7 @@ export default function AdminDashboard() {
   });
 
   return (
-    <div className="min-h-screen bg-blobs bg-[var(--bg-light)]">
+    <div className="min-h-screen bg-blobs bg-slate-50">
       {/* Navy Header */}
       <div className="navy-header p-8 pb-16 flex justify-between items-center relative z-10">
         <div>
@@ -70,13 +70,13 @@ export default function AdminDashboard() {
         <div className="flex gap-4 mb-6">
           <button 
             onClick={() => setActiveTab('overview')} 
-            className={`px-6 py-3 rounded-full text-sm font-semibold transition-all ${activeTab === 'overview' ? 'bg-[var(--primary-blue)] text-white shadow-lg' : 'bg-white text-gray-500 hover:bg-gray-50'}`}
+            className={`px-6 py-3 rounded-full text-sm font-semibold transition-all ${activeTab === 'overview' ? 'bg-blue-600 text-white shadow-lg' : 'bg-white text-gray-500 hover:bg-gray-50'}`}
           >
             Overview
           </button>
           <button 
             onClick={() => setActiveTab('departments')} 
-            className={`px-6 py-3 rounded-full text-sm font-semibold transition-all ${activeTab === 'departments' ? 'bg-[var(--primary-blue)] text-white shadow-lg' : 'bg-white text-gray-500 hover:bg-gray-50'}`}
+            className={`px-6 py-3 rounded-full text-sm font-semibold transition-all ${activeTab === 'departments' ? 'bg-blue-600 text-white shadow-lg' : 'bg-white text-gray-500 hover:bg-gray-50'}`}
           >
             Departments
           </button>

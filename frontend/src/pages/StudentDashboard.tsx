@@ -20,9 +20,9 @@ export default function StudentDashboard() {
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
   return (
-    <div className="min-h-screen bg-blobs bg-[var(--bg-light)] flex flex-col items-center">
+    <div className="min-h-screen bg-blobs bg-slate-50 flex flex-col items-center">
       {/* Mobile container constraint to simulate the app look on desktop */}
-      <div className="w-full max-w-md bg-[var(--bg-light)] min-h-screen relative shadow-2xl flex flex-col">
+      <div className="w-full max-w-md bg-slate-50 min-h-screen relative shadow-2xl flex flex-col">
         
         {/* Navy Header */}
         <div className="navy-header p-6 pb-8 flex justify-between items-center rounded-b-[30px] relative z-10">
@@ -79,7 +79,7 @@ export default function StudentDashboard() {
               <span className="text-2xl font-bold text-[var(--primary-blue)] mb-1">{attended}</span>
               <span className="text-[10px] text-gray-500 font-semibold uppercase">Attended</span>
             </div>
-            <div className="modern-card p-4 flex flex-col items-center justify-center bg-[var(--primary-blue)] shadow-[0_8px_20px_rgba(0,119,182,0.3)]">
+            <div className="modern-card p-4 flex flex-col items-center justify-center bg-blue-600 shadow-[0_8px_20px_rgba(0,119,182,0.3)]">
               <span className="text-2xl font-bold text-white mb-1">{total}</span>
               <span className="text-[10px] text-blue-100 font-semibold uppercase">Total</span>
             </div>
