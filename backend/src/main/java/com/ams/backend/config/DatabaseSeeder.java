@@ -27,41 +27,24 @@ public class DatabaseSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         // Seed Master Data First
-        Department csDept = departmentRepository.findByCode("CS").orElseGet(() -> 
-            departmentRepository.save(Department.builder().name("Computer Science").code("CS").build())
+        Department aimlDept = departmentRepository.findByCode("AIML").orElseGet(() -> 
+            departmentRepository.save(Department.builder().name("Artificial Intelligence and Machine Learning").code("AIML").build())
         );
 
-        Subject algoSubject = subjectRepository.findByCode("CS201").orElseGet(() -> 
-            subjectRepository.save(Subject.builder().name("Algorithms").code("CS201").department(csDept).defaultSemester(4).build())
+        Subject techSubject = subjectRepository.findByCode("TECH101").orElseGet(() -> 
+            subjectRepository.save(Subject.builder().name("Technical").code("TECH101").department(aimlDept).defaultSemester(4).build())
+        );
+        subjectRepository.findByCode("APT101").orElseGet(() -> 
+            subjectRepository.save(Subject.builder().name("Aptitude").code("APT101").department(aimlDept).defaultSemester(4).build())
+        );
+        subjectRepository.findByCode("SS101").orElseGet(() -> 
+            subjectRepository.save(Subject.builder().name("Softskills").code("SS101").department(aimlDept).defaultSemester(4).build())
         );
 
-        CourseClass csClass = classRepository.findAll().stream()
-            .filter(c -> c.getDepartment().getId().equals(csDept.getId()) && c.getSemester() == 4 && c.getSection().equals("A"))
+        CourseClass aimlClass = classRepository.findAll().stream()
+            .filter(c -> c.getDepartment().getId().equals(aimlDept.getId()) && c.getSemester() == 4 && c.getSection().equals("A"))
             .findFirst()
-            .orElseGet(() -> classRepository.save(CourseClass.builder().department(csDept).semester(4).section("A").batch("2023-2027").build()));
-
-        if (userRepository.findByEmail("23BTRCL210@student.ams.com").isEmpty()) {
-            User studentUser = User.builder()
-                    .email("23BTRCL210@student.ams.com")
-                    .password(passwordEncoder.encode("Mishra_00"))
-                    .role(Role.STUDENT)
-                    .name("Alex Morgan")
-                    .isActive(true)
-                    .build();
-            
-            userRepository.save(studentUser);
-
-            Student student = Student.builder()
-                    .user(studentUser)
-                    .rollNumber("23BTRCL210")
-                    .department(csDept)
-                    .semester("4")
-                    .section("A")
-                    .build();
-            
-            studentRepository.save(student);
-            System.out.println("✅ Seeded test student user: 23BTRCL210 / Mishra_00");
-        }
+            .orElseGet(() -> classRepository.save(CourseClass.builder().department(aimlDept).semester(4).section("A").batch("2023-2027").build()));
 
         if (userRepository.findByEmail("admin@ams.com").isEmpty()) {
             User adminUser = User.builder()
@@ -87,40 +70,51 @@ public class DatabaseSeeder implements CommandLineRunner {
 
             Teacher teacher = Teacher.builder()
                     .user(trainerUser)
-                    .department(csDept)
+                    .department(aimlDept)
                     .build();
             teacherRepository.save(teacher);
             System.out.println("✅ Seeded test trainer user: trainer@ams.com / trainer123");
         }
-        if (userRepository.findByEmail("trainer2@ams.com").isEmpty()) {
-            User trainerUser2 = User.builder()
-                    .email("trainer2@ams.com")
-                    .password(passwordEncoder.encode("trainer456"))
-                    .role(Role.TEACHER)
-                    .name("Dr. Sarah Jenkins")
-                    .isActive(true)
-                    .build();
-            userRepository.save(trainerUser2);
 
-            Teacher teacher2 = Teacher.builder()
-                    .user(trainerUser2)
-                    .department(csDept)
-                    .build();
-            teacherRepository.save(teacher2);
-        }
-
-        // Seed 3 more Students
-        String[][] moreStudents = {
-            {"23BTRCL211", "michael.c@student.ams.com", "Michael Chang"},
-            {"23BTRCL212", "sarah.s@student.ams.com", "Sarah Smith"},
-            {"23BTRCL213", "john.d@student.ams.com", "John Doe"}
+        // 29 Students from the screenshot
+        String[][] aimlStudents = {
+            {"23BTRCL126", "23btrcl126@student.ams.com", "ABDUL SAMI"},
+            {"23BTRCL256", "23btrcl256@student.ams.com", "DASARI AKHIL"},
+            {"23BTRCL041", "23btrcl041@student.ams.com", "DHRITIRAJ LAHAKAR"},
+            {"23BTRCL191", "23btrcl191@student.ams.com", "GOOTY KUMMARA SNIGDHA"},
+            {"23BTRCL196", "23btrcl196@student.ams.com", "KAJA RESHMI"},
+            {"23BTRCL257", "23btrcl257@student.ams.com", "LIKHITH"},
+            {"23BTRCL208", "23btrcl208@student.ams.com", "MAGANTI SRAVYA"},
+            {"23BTRCL209", "23btrcl209@student.ams.com", "MALLI AKHIL"},
+            {"23BTRCL210", "23btrcl210@student.ams.com", "MANAS MISHRA"},
+            {"23BTRCL211", "23btrcl211@student.ams.com", "MANGALA JEEVAN SAI"},
+            {"23BTRCL008", "23btrcl008@student.ams.com", "MATAM VISWARADHYA"},
+            {"23BTRCL214", "23btrcl214@student.ams.com", "MEDAM SURYA JASWANTH"},
+            {"23BTRCL151", "23btrcl151@student.ams.com", "MITHUN SANJITH V"},
+            {"23BTRCL215", "23btrcl215@student.ams.com", "MOGADALA JNANA SRI HARSH"},
+            {"23BTRCL152", "23btrcl152@student.ams.com", "MOHAMMED ISMAIL"},
+            {"23BTRCL216", "23btrcl216@student.ams.com", "MOUNIKA C"},
+            {"23BTRCL154", "23btrcl154@student.ams.com", "MUHAMMED FIRAS"},
+            {"23BTRCL217", "23btrcl217@student.ams.com", "MUKKAMALLA LOKESHWAR REDDY"},
+            {"23BTRCL218", "23btrcl218@student.ams.com", "MUTHULURU PRUTHVIRAJ"},
+            {"23BTRCL225", "23btrcl225@student.ams.com", "NAMALA USHODAYA"},
+            {"23BTRCL226", "23btrcl226@student.ams.com", "NAMALA ZUVARI GNANENDRA"},
+            {"23BTRCL227", "23btrcl227@student.ams.com", "P CHETHAN"},
+            {"23BTRCL062", "23btrcl062@student.ams.com", "P VASTHAV"},
+            {"23BTRCL156", "23btrcl156@student.ams.com", "PRANAV MEHAN"},
+            {"23BTRCL260", "23btrcl260@student.ams.com", "PRIYANSHU SONI"},
+            {"23BTRCL229", "23btrcl229@student.ams.com", "RATHISH C"},
+            {"23BTRCL158", "23btrcl158@student.ams.com", "RISHI KUMAR S NAIR"},
+            {"23BTRCL001", "23btrcl001@student.ams.com", "ROHAN KUMAR MANDAL"},
+            {"23BTRCL159", "23btrcl159@student.ams.com", "RUHEE ZAINAB"}
         };
 
-        for (String[] st : moreStudents) {
+        for (String[] st : aimlStudents) {
             if (userRepository.findByEmail(st[1]).isEmpty()) {
                 User sUser = User.builder()
                         .email(st[1])
-                        .password(passwordEncoder.encode("student123"))
+                        // specific password for Manas Mishra to test easily, others generic
+                        .password(passwordEncoder.encode(st[0].equals("23BTRCL210") ? "Mishra_00" : "student123"))
                         .role(Role.STUDENT)
                         .name(st[2])
                         .isActive(true)
@@ -130,13 +124,14 @@ public class DatabaseSeeder implements CommandLineRunner {
                 Student student = Student.builder()
                         .user(sUser)
                         .rollNumber(st[0])
-                        .department(csDept)
+                        .department(aimlDept)
                         .semester("4")
                         .section("A")
                         .build();
                 studentRepository.save(student);
             }
         }
+        System.out.println("✅ Seeded test student user: 23btrcl210@student.ams.com / Mishra_00");
 
         // Seed Events
         if (eventRepository.count() == 0) {
@@ -165,14 +160,14 @@ public class DatabaseSeeder implements CommandLineRunner {
                 attendanceRepository.save(Attendance.builder()
                         .student(s)
                         .teacher(teacher)
-                        .courseClass(csClass)
-                        .subject(algoSubject)
+                        .courseClass(aimlClass)
+                        .subject(techSubject)
                         .date(today)
                         .timeSlot("Morning")
-                        .status(i % 3 == 0 ? Attendance.AttendanceStatus.ABSENT : Attendance.AttendanceStatus.PRESENT) // 1 in 3 absent
+                        .status(i % 3 == 0 ? Attendance.AttendanceStatus.ABSENT : Attendance.AttendanceStatus.PRESENT)
                         .build());
             }
-            System.out.println("✅ Seeded mock attendance records for today");
+            System.out.println("✅ Seeded mock attendance records for today in AIML Class");
         }
     }
 }

@@ -58,7 +58,7 @@ public class AttendanceController {
             @RequestParam String date) {
         
         List<Attendance> records = attendanceRepository.findAll().stream()
-                .filter(a -> a.getCourseClass().getId().equals(classId) && a.getDate().equals(date))
+                .filter(a -> a.getCourseClass().getId().equals(classId) && a.getDate().toString().equals(date))
                 .toList();
                 
         return ResponseEntity.ok(records);
