@@ -2,7 +2,7 @@
 
 A highly polished, modern, full-stack Attendance Management System built with **Spring Boot** and **React**. Designed to provide a premium user experience for Students, Trainers, and Administrators, with fully role-based access control and dynamic dashboard functionality.
 
-## 🚀 Features
+##  Features
 
 - **Role-Based Access Control (RBAC):** Secure login portals tailored for Admins, Teachers, and Students.
 - **Premium UI/UX:** Responsive, modern interfaces styled with Tailwind CSS, utilizing glassmorphism, soft shadows, and a clean white-and-navy aesthetic.
@@ -11,40 +11,26 @@ A highly polished, modern, full-stack Attendance Management System built with **
 - **Real-time Student Dashboard:** Students can securely view their personal attendance statistics and dynamically loaded campus events.
 - **Automated Mock Data Seeding:** Instantly spins up realistic data (such as an Artificial Intelligence and Machine Learning roster with 29 students, complete with events and mock attendance).
 
-## 🛠️ Technology Stack
+##  Technology Stack
 
 - **Frontend:** React (Vite), TypeScript, Tailwind CSS, TanStack Query, React Router, Lucide React (Icons).
 - **Backend:** Java 21, Spring Boot (REST API), Spring Security (JWT authentication ready architecture), Spring Data JPA.
 - **Database:** PostgreSQL.
 
-## 📸 Screenshots
-
-| Login Portal | Admin Dashboard |
-| :---: | :---: |
-| ![Login Portal](screenshots/login.png) | ![Admin Dashboard](screenshots/admin_panel.png) |
-
-| Trainer Attendance Interface |
-| :---: |
-| ![Trainer Dashboard](screenshots/dashboard.png) |
-
-## 🔑 Demo Credentials
-
-A mock dataset is automatically seeded on startup for testing. You can log in using the following accounts:
-
-### 👑 Administrator
+###  Administrator
 - **Email:** `admin@ams.com`
 - **Password:** `admin123`
 
-### 🎓 Trainer
+###  Trainer
 - **Email:** `trainer@ams.com`
 - **Password:** `trainer123`
 
-### 📚 Student (AIML Roster)
+###  Student (AIML Roster)
 - **Email:** `23btrcl210@student.ams.com` (Manas Mishra)
 - **Password:** `Mishra_00`
 - *(Other mock students follow the format `[usn]@student.ams.com` / `student123`)*
 
-## 📦 Local Setup Instructions
+##  Local Setup Instructions
 
 ### 1. Prerequisites
 - **Java 21** or higher.
