@@ -19,34 +19,34 @@ export default function AdminDashboard() {
 
   const { data: stats } = useQuery({
     queryKey: ['adminStats'],
-    queryFn: () => fetch('http://localhost:8081/api/admin/stats', fetchConfig).then(res => res.json())
+    queryFn: () => fetch(`\${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'}/api/admin/stats`, fetchConfig).then(res => res.json())
   });
 
   const { data: departments } = useQuery({
     queryKey: ['departments'],
-    queryFn: () => fetch('http://localhost:8081/api/departments', fetchConfig).then(res => res.json())
+    queryFn: () => fetch(`\${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'}/api/departments`, fetchConfig).then(res => res.json())
   });
 
   const { data: students } = useQuery({
     queryKey: ['students'],
-    queryFn: () => fetch('http://localhost:8081/api/admin/students', fetchConfig).then(res => res.json()),
+    queryFn: () => fetch(`\${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'}/api/admin/students`, fetchConfig).then(res => res.json()),
     enabled: activeTab === 'students'
   });
 
   const { data: trainers } = useQuery({
     queryKey: ['trainers'],
-    queryFn: () => fetch('http://localhost:8081/api/admin/teachers', fetchConfig).then(res => res.json()),
+    queryFn: () => fetch(`\${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'}/api/admin/teachers`, fetchConfig).then(res => res.json()),
     enabled: activeTab === 'trainers'
   });
 
   const { data: attendanceRecords, refetch: refetchAttendance } = useQuery({
     queryKey: ['attendanceReview', reviewClassId, reviewDate],
-    queryFn: () => fetch(`http://localhost:8081/api/attendance/review?classId=${reviewClassId}&date=${reviewDate}`, fetchConfig).then(res => res.json()),
+    queryFn: () => fetch(`\${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'}/api/attendance/review?classId=${reviewClassId}&date=${reviewDate}`, fetchConfig).then(res => res.json()),
     enabled: activeTab === 'attendance' && !!reviewClassId && !!reviewDate
   });
 
   const createDeptMutation = useMutation({
-    mutationFn: (newDept: any) => fetch('http://localhost:8081/api/departments', {
+    mutationFn: (newDept: any) => fetch(`\${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'}/api/departments`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
       body: JSON.stringify(newDept)
@@ -59,7 +59,7 @@ export default function AdminDashboard() {
   });
 
   const deleteDeptMutation = useMutation({
-    mutationFn: (id: number) => fetch(`http://localhost:8081/api/departments/${id}`, {
+    mutationFn: (id: number) => fetch(`\${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'}/api/departments/${id}`, {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${token}` }
     }),
@@ -69,7 +69,7 @@ export default function AdminDashboard() {
   });
 
   const updateAttendanceMutation = useMutation({
-    mutationFn: ({ id, status }: { id: number, status: string }) => fetch(`http://localhost:8081/api/attendance/${id}`, {
+    mutationFn: ({ id, status }: { id: number, status: string }) => fetch(`\${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'}/api/attendance/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
       body: JSON.stringify({ status })
@@ -81,7 +81,7 @@ export default function AdminDashboard() {
 
   const { data: classes } = useQuery({
     queryKey: ['classes'],
-    queryFn: () => fetch('http://localhost:8081/api/classes', fetchConfig).then(res => res.json()),
+    queryFn: () => fetch(`\${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'}/api/classes`, fetchConfig).then(res => res.json()),
     enabled: activeTab === 'attendance'
   });
 

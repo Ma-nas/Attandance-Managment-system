@@ -13,7 +13,7 @@ export default function StudentDashboard() {
 
   const { data: events } = useQuery({
     queryKey: ['events'],
-    queryFn: () => fetch('http://localhost:8081/api/events', {
+    queryFn: () => fetch(`\${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'}/api/events`, {
       headers: { 'Authorization': `Bearer ${token}` }
     }).then(res => res.json())
   });

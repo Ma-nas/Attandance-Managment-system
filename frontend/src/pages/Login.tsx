@@ -12,7 +12,7 @@ export default function Login() {
 
   const loginMutation = useMutation({
     mutationFn: async () => {
-      const res = await fetch('http://localhost:8081/api/auth/login', {
+      const res = await fetch(`\${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ identifier, password })

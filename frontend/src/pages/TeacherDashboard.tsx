@@ -17,9 +17,9 @@ export default function TeacherDashboard() {
   const token = localStorage.getItem('auth_token');
   const fetchConfig = { headers: { 'Authorization': `Bearer ${token}` } };
 
-  const { data: deps } = useQuery({ queryKey: ['deps'], queryFn: () => fetch('http://localhost:8081/api/departments', fetchConfig).then(res => res.json()) });
-  const { data: classes } = useQuery({ queryKey: ['classes'], queryFn: () => fetch('http://localhost:8081/api/classes', fetchConfig).then(res => res.json()) });
-  const { data: subs } = useQuery({ queryKey: ['subs'], queryFn: () => fetch('http://localhost:8081/api/subjects', fetchConfig).then(res => res.json()) });
+  const { data: deps } = useQuery({ queryKey: ['deps'], queryFn: () => fetch(`\${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'}/api/departments`, fetchConfig).then(res => res.json()) });
+  const { data: classes } = useQuery({ queryKey: ['classes'], queryFn: () => fetch(`\${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'}/api/classes`, fetchConfig).then(res => res.json()) });
+  const { data: subs } = useQuery({ queryKey: ['subs'], queryFn: () => fetch(`\${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'}/api/subjects`, fetchConfig).then(res => res.json()) });
 
   const availableSemesters = Array.from(new Set(classes?.filter((c: any) => c.department.id.toString() === department).map((c: any) => c.semester))) as number[];
   const availableSections = Array.from(new Set(classes?.filter((c: any) => c.department.id.toString() === department && c.semester.toString() === semester).map((c: any) => c.section))) as string[];
@@ -32,7 +32,7 @@ export default function TeacherDashboard() {
       return;
     }
     try {
-      const res = await fetch(`http://localhost:8081/api/students?departmentId=${department}&semester=${semester}&section=${section}`, fetchConfig);
+      const res = await fetch(`\${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'}/api/students?departmentId=${department}&semester=${semester}&section=${section}`, fetchConfig);
       const data = await res.json();
       
       const studentsWithStatus = data.map((s: any) => ({
@@ -73,7 +73,7 @@ export default function TeacherDashboard() {
         }))
       };
 
-      const res = await fetch('http://localhost:8081/api/attendance/mark', {
+      const res = await fetch(`\${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'}/api/attendance/mark`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(payload)
