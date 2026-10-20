@@ -1,68 +1,176 @@
-# Attendance Management System
+﻿# Attendance Management System (AMS)
 
-A highly polished, modern, full-stack Attendance Management System built with **Spring Boot** and **React**. Designed to provide a premium user experience for Students, Trainers, and Administrators, with fully role-based access control and dynamic dashboard functionality.
+### Enterprise Academic Attendance Governance Platform with Granular Role-Based Access Control
 
-##  Features
+[![Java](https://img.shields.io/badge/Java-21-ED8B00?style=flat-square&logo=openjdk&logoColor=white)](https://openjdk.org)
+[![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-6DB33F?style=flat-square&logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![Spring Security](https://img.shields.io/badge/Spring_Security-RBAC-6DB33F?style=flat-square&logo=springsecurity&logoColor=white)](https://spring.io/projects/spring-security)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15+-4169E1?style=flat-square&logo=postgresql&logoColor=white)](https://www.postgresql.org)
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-3.x-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
 
-- **Role-Based Access Control (RBAC):** Secure login portals tailored for Admins, Teachers, and Students.
-- **Premium UI/UX:** Responsive, modern interfaces styled with Tailwind CSS, utilizing glassmorphism, soft shadows, and a clean white-and-navy aesthetic.
-- **Admin Center:** Comprehensive dashboards to manage Departments, Students, Trainers, and review Attendance records effortlessly.
-- **Dynamic Trainer Roster:** Interactive attendance-taking workflow allowing trainers to select specific classes and mark present/absent students instantly.
-- **Real-time Student Dashboard:** Students can securely view their personal attendance statistics and dynamically loaded campus events.
-- **Automated Mock Data Seeding:** Instantly spins up realistic data (such as an Artificial Intelligence and Machine Learning roster with 29 students, complete with events and mock attendance).
+[System Overview](#system-overview) | [Architecture](#system-architecture) | [RBAC Matrix](#role-based-access-control-matrix) | [API Endpoints](#rest-api-specification) | [Setup Guide](#setup--installation)
 
-##  Technology Stack
+---
 
-- **Frontend:** React (Vite), TypeScript, Tailwind CSS, TanStack Query, React Router, Lucide React (Icons).
-- **Backend:** Java 21, Spring Boot (REST API), Spring Security (JWT authentication ready architecture), Spring Data JPA.
-- **Database:** PostgreSQL.
+## System Overview
 
-###  Administrator
-- **Email:** `admin@ams.com`
-- **Password:** `admin123`
+The Attendance Management System (AMS) is a full-stack, enterprise-grade academic administration platform engineered to automate attendance tracking, departmental structure management, and academic analytics. Built on Java 21, Spring Boot, and PostgreSQL with a decoupled React/TypeScript client, AMS replaces error-prone physical registers with authenticated, audit-logged digital records.
 
-###  Trainer
-- **Email:** `trainer@ams.com`
-- **Password:** `trainer123`
+### Key Capabilities
 
-###  Student (AIML Roster)
-- **Email:** `23btrcl210@student.ams.com` (Manas Mishra)
-- **Password:** `Mishra_00`
-- *(Other mock students follow the format `[usn]@student.ams.com` / `student123`)*
+- **Strict Role-Based Access Control (RBAC):** Three distinct operating portals (Administrator, Trainer/Faculty, and Student) with isolated permission boundaries.
+- **Dynamic Attendance Roster:** Interactive session management allowing trainers to query specific course classes and batch-submit attendance records in real time.
+- **Academic Hierarchy Management:** Relational data structures managing Departments, Course Classes, Subjects, Faculty assignments, and Student enrollments.
+- **Live Student Telemetry:** Students monitor subject-wise attendance percentages against institutional minimum thresholds and review campus event bulletins.
+- **Automated Mock Data Seeding:** Embedded data initialization pipeline populating realistic academic structures (including an AIML department roster of 29 students, schedules, and mock attendance history).
 
-##  Local Setup Instructions
+---
 
-### 1. Prerequisites
-- **Java 21** or higher.
-- **Node.js** (v18+ recommended).
-- **PostgreSQL** running locally on default port 5432.
+## System Architecture
 
-### 2. Database Configuration
-1. Open PostgreSQL and create a database named `ams_db`.
-2. Ensure you have a user with credentials:
-   - Username: `ams_user`
-   - Password: `ams_password`
-*(You can modify these defaults in `backend/src/main/resources/application.properties`)*
+```
++-------------------------------------------------------------------------+
+|                  React 18 + TypeScript + Vite Client                    |
+|       Admin Console    |    Faculty Marking Sheet   |   Student Portal  |
++-------------------------------------------------------------------------+
+                                    |
+                           HTTP REST (JSON Payloads)
+                                    v
++-------------------------------------------------------------------------+
+|                     Spring Boot 3.x Application Core                    |
+|       Security Filter Chain  |  CORS Configuration  |  Global Handlers  |
++-------------------------------------------------------------------------+
+          |                         |                         |
+          v                         v                         v
++--------------------+    +--------------------+    +--------------------+
+|  AdminController   |    |AttendanceController|    | StudentController  |
+|  Department / User |    | Roster Submission  |    | Attendance History |
++--------------------+    +--------------------+    +--------------------+
+          |                         |                         |
+          +-------------------------+-------------------------+
+                                    |
+                                    v
++-------------------------------------------------------------------------+
+|                        Spring Data JPA Layer                            |
+|             Hibernate ORM Entities & Transactional Services             |
++-------------------------------------------------------------------------+
+                                    |
+                                    v
++-------------------------------------------------------------------------+
+|                           PostgreSQL Database                           |
+|          users | departments | subjects | course_classes | attendance   |
++-------------------------------------------------------------------------+
+```
 
-### 3. Start the Backend (Spring Boot)
-Open a terminal in the `backend/` directory:
+---
+
+## Role-Based Access Control Matrix
+
+| Permission / Workflow | Administrator | Trainer (Faculty) | Student |
+| :--- | :---: | :---: | :---: |
+| Authenticate via dedicated portal | Yes | Yes | Yes |
+| Department & Course Class Management | Yes | No | No |
+| User Provisioning (Students & Faculty) | Yes | No | No |
+| Global Attendance Audit & Reporting | Yes | No | No |
+| Fetch Assigned Class Rosters | Yes | Yes | No |
+| Submit Session Attendance (Batch Present/Absent) | Yes | Yes | No |
+| View Individual Attendance Percentages | Yes | Yes | Yes (Self Only) |
+| Review Campus Event Announcements | Yes | Yes | Yes |
+
+### Default Development Credentials
+
+| Role | Email Identifier | Password | Access Scope |
+| :--- | :--- | :--- | :--- |
+| **Administrator** | `admin@ams.com` | `admin123` | Full administrative governance |
+| **Trainer** | `trainer@ams.com` | `trainer123` | Faculty attendance marking |
+| **Student (AIML)** | `23btrcl210@student.ams.com` | `Mishra_00` | Student profile and records |
+
+---
+
+## REST API Specification
+
+### Authentication
+
+- `POST /api/v1/auth/login` - Authenticate user credentials and return role-bound session data.
+- `POST /api/v1/auth/register` - Create new user account (Admin scoped).
+
+### Academic Administration
+
+- `GET /api/v1/departments` - List all institutional departments.
+- `POST /api/v1/departments` - Register a new department.
+- `GET /api/v1/subjects` - Query subjects by department and semester.
+- `POST /api/v1/subjects` - Register a new curriculum subject.
+- `GET /api/v1/classes` - Retrieve active course classes and faculty allocations.
+- `POST /api/v1/classes` - Create a new course section.
+
+### Attendance Operations
+
+- `POST /api/v1/attendance/mark` - Batch submit attendance status (PRESENT / ABSENT) for a course class session.
+- `GET /api/v1/attendance/class/{classId}` - Retrieve historical attendance logs for a specific course class.
+- `GET /api/v1/attendance/student/{studentId}` - Compute subject-wise attendance aggregates for an individual student.
+
+### Student and Event Services
+
+- `GET /api/v1/students/department/{deptId}` - List students enrolled under a specific department.
+- `GET /api/v1/events` - Retrieve active campus event announcements.
+- `POST /api/v1/events` - Publish campus bulletin (Admin scoped).
+
+---
+
+## Setup & Installation
+
+### Prerequisites
+
+- Java Development Kit (JDK 21 or higher)
+- Node.js (v18.0.0 or higher) and npm
+- PostgreSQL (v14 or higher) running locally on port `5432`
+
+### 1. Database Configuration
+
+Create a dedicated database instance in PostgreSQL:
+
+```sql
+CREATE DATABASE ams_db;
+CREATE USER ams_user WITH ENCRYPTED PASSWORD 'ams_password';
+GRANT ALL PRIVILEGES ON DATABASE ams_db TO ams_user;
+```
+
+*(Connection parameters can be adjusted in `backend/src/main/resources/application.properties`)*
+
+### 2. Backend Service Launch
+
+Navigate to the `backend/` directory:
+
 ```bash
 cd backend
+
+# Execute Maven wrapper build and run
 ./mvnw clean spring-boot:run
 ```
-*(On the very first run, it will automatically build the schema and seed the AIML mock roster).*
 
-### 4. Start the Frontend (React)
-Open a separate terminal in the `frontend/` directory:
+On first initialization, Hibernate creates table schemas and seeds the mock roster. The backend runs on `http://localhost:8080`.
+
+### 3. Frontend Client Launch
+
+In a separate terminal, navigate to the `frontend/` directory:
+
 ```bash
 cd frontend
+
+# Install Node dependencies
 npm install
+
+# Start Vite development server
 npm run dev
 ```
-Navigate to `http://localhost:5173` in your web browser.
 
-## 🤝 Contributing
-Contributions, issues, and feature requests are welcome! Feel free to check [issues page](#) if you want to contribute.
+The frontend client launches on `http://localhost:5173`.
 
-## 📝 License
-This project is [MIT](https://choosealicense.com/licenses/mit/) licensed.
+---
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for full details.
