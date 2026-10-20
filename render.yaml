@@ -1,0 +1,50 @@
+﻿services:
+  # Backend Spring Boot API
+  - type: web
+    name: ams-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    region: oregon
+    envVars:
+      - key: PORT
+        value: 8081
+      - key: SPRING_DATASOURCE_URL
+        fromDatabase:
+          name: ams-db
+          property: connectionString
+      - key: SPRING_DATASOURCE_USERNAME
+        fromDatabase:
+          name: ams-db
+          property: user
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromDatabase:
+          name: ams-db
+          property: password
+
+  # Frontend React Web Application
+  - type: web
+    name: ams-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    plan: free
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: ams-backend
+          property: host
+
+databases:
+  - name: ams-db
+    plan: free
+    region: oregon
+    databaseName: ams_db
+    user: ams_user

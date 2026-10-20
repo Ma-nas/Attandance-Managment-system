@@ -171,6 +171,56 @@ The frontend client launches on `http://localhost:5173`.
 
 ---
 
+
+---
+
+## 24/7 Cloud Deployment Guide (Free Hosting)
+
+To keep the Attendance Management System accessible online 24/7 for anyone with zero hosting cost, deploy using one of the following production setups:
+
+### Method 1: Automated 1-Click Blueprint (Render)
+
+This repository includes a ready-to-run [`render.yaml`](render.yaml) blueprint that automatically provisions a cloud PostgreSQL database, Dockerized Spring Boot backend, and React static frontend:
+
+1. Sign up for a free account at [Render](https://render.com/).
+2. Click **New +** -> **Blueprint**.
+3. Connect your GitHub repository: `Ma-nas/Attandance-Managment-system`.
+4. Render detects `render.yaml` and provisions:
+   - `ams-db`: Free cloud PostgreSQL 15 database
+   - `ams-backend`: Dockerized Spring Boot Web Service
+   - `ams-frontend`: React Static Site with SPA routing
+5. Click **Apply**. Once built, Render generates live URLs accessible 24/7 from anywhere in the world.
+
+---
+
+### Method 2: Vercel (Frontend) + Render/Railway (Backend) + Neon (Database)
+
+#### 1. Free Cloud Database (Neon / Supabase)
+- Create a free database at [Neon.tech](https://neon.tech/) or [Supabase](https://supabase.com/).
+- Copy your PostgreSQL connection string: `postgresql://user:password@ep-xyz.neon.tech/ams_db`.
+
+#### 2. Backend Service (Render or Railway)
+- Create a new **Web Service** on Render or Railway pointing to the `backend/` folder.
+- Select **Docker** (or Maven build).
+- Add Environment Variables:
+  - `SPRING_DATASOURCE_URL`: `jdbc:postgresql://ep-xyz.neon.tech/ams_db?sslmode=require`
+  - `SPRING_DATASOURCE_USERNAME`: your Neon user
+  - `SPRING_DATASOURCE_PASSWORD`: your Neon password
+- The backend automatically initializes tables and mock data on boot.
+
+#### 3. Frontend Client (Vercel)
+- Sign in to [Vercel](https://vercel.com/) and click **Add New Project**.
+- Select `Attandance-Managment-system`.
+- In Project Settings:
+  - **Root Directory:** `frontend`
+  - **Framework Preset:** `Vite`
+  - **Environment Variables:**
+    - `VITE_API_BASE_URL`: `https://your-backend-service.onrender.com`
+- Click **Deploy**. Vercel delivers a 24/7 global CDN URL (e.g. `https://ams-system.vercel.app`).
+
+---
+
 ## License
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for full details.
+
