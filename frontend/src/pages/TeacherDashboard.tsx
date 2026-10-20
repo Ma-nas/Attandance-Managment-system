@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { LogOut, ChevronRight, CheckCircle, XCircle, Menu, Calendar, Users, BookOpen, ArrowLeft } from 'lucide-react';
+import { LogOut, CheckCircle, XCircle, Menu, Calendar, Users, BookOpen, ArrowLeft } from 'lucide-react';
 
 export default function TeacherDashboard() {
   const navigate = useNavigate();

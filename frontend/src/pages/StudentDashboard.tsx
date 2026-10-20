@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { Menu, LogOut, ChevronRight, Calendar } from 'lucide-react';
+import { Menu, LogOut, ChevronRight } from 'lucide-react';
 
 export default function StudentDashboard() {
   const navigate = useNavigate();
