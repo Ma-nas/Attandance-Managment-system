@@ -4,16 +4,22 @@ import { Menu, LogOut, ChevronRight, Calendar } from 'lucide-react';
 
 export default function StudentDashboard() {
   const navigate = useNavigate();
-  const userName = "Andrew Sam";
-  const percentage = 80;
-  const attended = 24;
-  const total = 30;
-  const leavesLeft = 0;
+  const userName = localStorage.getItem('auth_name') || "Manas Mishra";
+  const percentage = 84;
+  const attended = 32;
+  const total = 38;
+  const leavesLeft = 2;
+  
+  const subjectsData = [
+    { name: "Technical (TECH101)", attended: 12, total: 14, percent: 85, color: "bg-blue-500" },
+    { name: "Aptitude (APT101)", attended: 8, total: 10, percent: 80, color: "bg-green-500" },
+    { name: "Softskills (SS101)", attended: 12, total: 14, percent: 85, color: "bg-purple-500" }
+  ];
   const token = localStorage.getItem('auth_token');
 
   const { data: events } = useQuery({
     queryKey: ['events'],
-    queryFn: () => fetch(`\${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'}/api/events`, {
+    queryFn: () => fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'}/api/events`, {
       headers: { 'Authorization': `Bearer ${token}` }
     }).then(res => res.json())
   });
@@ -97,6 +103,28 @@ export default function StudentDashboard() {
                 <span className="text-[10px] md:text-xs text-gray-500 font-bold uppercase tracking-wider text-center">Leaves left</span>
               </div>
             </div>
+
+            {/* Subject-wise Analysis */}
+            <div className="mt-12 w-full">
+              <h3 className="text-xl font-bold text-[#0A192F] mb-6 tracking-tight">Subject-wise Analysis</h3>
+              <div className="space-y-6">
+                {subjectsData.map((sub, idx) => (
+                  <div key={idx} className="bg-[#F8FAFC] p-5 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex justify-between items-end mb-2">
+                      <div>
+                        <div className="font-bold text-[#0A192F]">{sub.name}</div>
+                        <div className="text-xs text-gray-500 font-semibold mt-1">{sub.attended} / {sub.total} Classes Attended</div>
+                      </div>
+                      <div className="font-black text-lg text-[#0A192F]">{sub.percent}%</div>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-3">
+                      <div className={`${sub.color} h-3 rounded-full`} style={{ width: `${sub.percent}%` }}></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
           </div>
 
           {/* Right Column: Events & Actions */}

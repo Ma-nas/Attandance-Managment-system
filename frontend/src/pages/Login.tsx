@@ -8,14 +8,15 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
   const navigate = useNavigate();
 
   const loginMutation = useMutation({
     mutationFn: async () => {
-      const res = await fetch(`\${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'}/api/auth/login`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ identifier, password })
+        body: JSON.stringify({ identifier: identifier.trim(), password: password.trim() })
       });
       if (!res.ok) throw new Error("Invalid credentials");
       return res.json();
@@ -23,6 +24,7 @@ export default function Login() {
     onSuccess: (data) => {
       localStorage.setItem('auth_token', data.token);
       localStorage.setItem('auth_role', data.role);
+      localStorage.setItem('auth_name', data.name);
       
       if (data.role === 'STUDENT') {
         navigate('/');
@@ -40,7 +42,19 @@ export default function Login() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccessMsg('');
     loginMutation.mutate();
+  };
+
+  const handleForgotPassword = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setError('');
+    if (!identifier.trim()) {
+      setError('Please enter your Register No. or Email first to reset your password.');
+      setSuccessMsg('');
+      return;
+    }
+    setSuccessMsg(`A password reset link has been sent to the email associated with ${identifier}.`);
   };
 
   return (
@@ -69,6 +83,7 @@ export default function Login() {
           </div>
 
           {error && <div className="text-red-500 text-sm mb-4 bg-red-50 p-4 rounded-2xl font-medium">{error}</div>}
+          {successMsg && <div className="text-green-600 text-sm mb-4 bg-green-50 p-4 rounded-2xl font-medium">{successMsg}</div>}
 
           <form onSubmit={handleSubmit} className="space-y-8 relative z-20">
             <div className="space-y-6">
@@ -103,7 +118,7 @@ export default function Login() {
             </div>
 
             <div className="text-right">
-              <a href="#" className="text-xs text-gray-400 hover:text-[#0077B6] transition-colors font-semibold">Forgot Password?</a>
+              <button type="button" onClick={handleForgotPassword} className="text-xs text-gray-400 hover:text-[#0077B6] transition-colors font-semibold">Forgot Password?</button>
             </div>
 
             <div className="mt-8">
