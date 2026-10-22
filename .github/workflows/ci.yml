@@ -20,7 +20,9 @@ jobs:
           cache: maven
       - name: Build and Test with Maven
         working-directory: ./backend
-        run: ./mvnw clean test -Dtest=AuditLogServiceTest
+        run: |
+          chmod +x mvnw
+          ./mvnw clean test -Dtest=AuditLogServiceTest
 
   frontend-build:
     name: Frontend Lint & Build (Node 20)
